@@ -229,9 +229,10 @@ Based on RHCSA exam objectives, this lab supports:
 - [ ] Task #42: Build container image from Containerfile
 - [ ] Task #43: Deploy container as systemd service
 
-_For more information check the lab [ordered-task-list](lab/ordered-task-list.md) in the lab folder._
 
-_For the solutions check the lab [ordered-answer-list](lab/ordered-answer-list.md) in the lab folder._
+_**For more information check the lab [ordered-task-list](lab/ordered-task-list.md) in the lab folder.**_
+
+_**For the solutions check the lab [ordered-answer-list](lab/ordered-answer-list.md) in the lab folder.**_
 
 ## Common Commands
 
