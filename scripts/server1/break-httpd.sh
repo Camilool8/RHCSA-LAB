@@ -65,6 +65,8 @@ if [ -n "$CONN_NAME" ]; then
     nmcli con del "$CONN_NAME" 2>/dev/null || true
 fi
 
+ifconfig
+
 echo ""
 echo "=== server1 setup complete ==="
 echo ""

@@ -40,7 +40,6 @@ if [ "$DVD_REPOS_AVAILABLE" = true ]; then
     
     dnf install -y tigervnc-server --disablerepo="*" --enablerepo="DVD-*" 2>/dev/null
     
-    umount /mnt/cdrom 2>/dev/null
     echo "✓ GUI installed from DVD"
 else
     dnf groupinstall -y "Server with GUI" --skip-broken 2>/dev/null || \
@@ -84,11 +83,45 @@ EOF
 systemctl daemon-reload
 systemctl enable vncserver@:1.service
 
+echo "Installing noVNC for browser-based VNC access..."
+if [ "$DVD_REPOS_AVAILABLE" = true ]; then
+    dnf install -y novnc python3-websockify --disablerepo="*" --enablerepo="DVD-*" 2>/dev/null
+    echo "✓ noVNC installed from DVD"
+else
+    dnf install -y novnc python3-websockify 2>/dev/null
+    echo "✓ noVNC installation attempted"
+fi
+
+cat > /etc/systemd/system/novnc.service <<'EOF'
+[Unit]
+Description=noVNC websocket proxy
+After=vncserver@:1.service network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/websockify --web=/usr/share/novnc/ 6080 localhost:5901
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable novnc.service
+
+if [ "$DVD_REPOS_AVAILABLE" = true ]; then
+    umount /mnt/cdrom 2>/dev/null
+fi
+
 firewall-cmd --permanent --add-service=vnc-server
 firewall-cmd --permanent --add-port=5901/tcp
+firewall-cmd --permanent --add-port=6080/tcp
 firewall-cmd --reload
 
-# Break the system for practice
+echo "✓ VNC and noVNC services configured"
+
+
 NEW_ROOT_PASSWORD=$(openssl rand -base64 16)
 echo "root:${NEW_ROOT_PASSWORD}" | chpasswd
 echo "INFO: Root password randomized"
@@ -107,14 +140,16 @@ if [ -n "$CONN_NAME" ]; then
     nmcli con del "$CONN_NAME" 2>/dev/null || true
 fi
 
+ifconfig
+
 echo ""
 echo "=== server2 setup complete ==="
 echo ""
 echo "Status:"
 echo "  ✓ GNOME Desktop + VNC on port 5901"
+echo "  ✓ noVNC browser access on port 6080"
 echo "  ✗ Root password RANDOMIZED"
 echo "  ✗ Boot broken (network.target)"
 echo "  ✗ NO repos (Task #7)"
 echo "  ✗ NO network on eth2 (Task #2)"
 echo ""
-echo "VNC: vnc://192.168.55.72:5901 (password: password)"
