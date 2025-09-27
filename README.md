@@ -199,7 +199,7 @@ vagrant up server1 server2
 Based on RHCSA exam objectives, this lab supports:
 
 **Boot & System (Server2):**
-- [ ] Task #1: Break into server2, reset root password, fix boot target
+- [ ] Task #1: Break into server2, reset root password, fix boot target **(NOT WORKING ON LAB VM)**
 
 **Network (Both Servers):**
 - [ ] Task #2: Configure network interfaces (192.168.55.71 & .72)
