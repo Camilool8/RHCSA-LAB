@@ -1,0 +1,34 @@
+# RHCSA Lab Configuration
+
+network:
+  subnet: "192.168.55"
+  netmask: "255.255.255.0"
+  bridge_adapter: "auto"
+
+vms:
+  repo_server:
+    hostname: "repo-server"
+    ip: "192.168.55.47"
+    memory: 1024
+    cpus: 2
+    disk_size: "32GB"
+    
+  server1:
+    hostname: "server1"
+    ip: "192.168.55.71"
+    memory: 2048
+    cpus: 2
+    disk_size: "32GB"
+    
+  server2:
+    hostname: "server2"
+    ip: "192.168.55.72"
+    memory: 2048
+    cpus: 2
+    disk_size: "32GB"
+    additional_disks:
+      - size: "16GB"
+      - size: "16GB"
+
+box:
+  name: "generic/rhel9"
