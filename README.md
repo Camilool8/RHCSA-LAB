@@ -21,9 +21,8 @@ Automated RHCSA 9 practice lab with 3 servers using Vagrant + VirtualBox.
 ### 1. Setup Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Camilool8/RHCSA-LAB.git
 cd rhcsa-lab
-mkdir -p disks iso scripts/common scripts/repo-server scripts/server1 scripts/server2 files
 ```
 
 ### 2. Add ISO (Optional but Recommended)
@@ -47,9 +46,9 @@ This takes 15-20 minutes on first run.
 
 **SSH with password (recommended for lab):**
 ```bash
-ssh redhat@192.168.55.47    # repo server (after network configured)
-ssh redhat@192.168.55.71    # server1 (after Task #2)
-ssh redhat@192.168.55.72    # server2 (after Task #2)
+ssh redhat@192.168.55.47    # repo server (after network configured and usually not needed)
+ssh redhat@192.168.55.71    # server1
+ssh redhat@192.168.55.72    # server2
 # Password: redhat
 ```
 
